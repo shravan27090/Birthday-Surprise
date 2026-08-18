@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Birthday Surprise"
+description = "A cinematic, mobile-first birthday surprise website with an interactive envelope reveal, typewritten love letter, constellation memory gallery, wish moment, and editable message, photos, and music."
+version = "1.0.0"
+id = "artifacts/birthday-surprise"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25201
+
+[services.development]
+run = "pnpm --filter @workspace/birthday-surprise run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/birthday-surprise", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/birthday-surprise/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25201"
+BASE_PATH = "/"
