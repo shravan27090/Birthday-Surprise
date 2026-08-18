@@ -8,15 +8,17 @@ export type Memory = {
   y: number;
 };
 
-// Personalization lives here: swap the message, signature, audio path, or any
-// photo URL in one place before sharing the link.
+// Personalization lives here: swap the message, signature, audio path, video
+// path, or any photo URL in one place before sharing the link.
 export const birthdayConfig = {
-  birthdayName: 'Mira',
+  birthdayName: 'Deeksha',
   birthdayMessage:
     'There are a thousand small moments I would choose again: the way you make a room feel warmer, the laugh you try to hide, the quiet hours that somehow become our favorite stories. You are my favorite place to arrive.\n\nToday I hope the world is gentle with you. I hope it gives you reasons to be surprised, music to dance to in the kitchen, and a year that feels as bright and entirely yours as you deserve.\n\nThank you for letting me love you in all the ordinary, beautiful minutes. I am so lucky that my life gets to have your name in it.',
-  signature: 'Always yours, Theo',
+  signature: 'Always yours, Shravan',
   // Replace this with your own uploaded audio file path when personalizing.
-  audioPath: '/audio/ambient-birthday.wav',
+  audioPath: '/audio/happy-birthday-song.wav',
+  // Add your collage video to public/media/ and update this path if needed.
+  collageVideoPath: '/media/collage-video.mp4',
   memories: [
     {
       id: 'first-light',

@@ -159,6 +159,16 @@
   background-size: 100% 2.15rem;
 }
 
+.letter-rule textarea {
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.letter-rule textarea::-webkit-scrollbar {
+  display: none;
+}
+
 .memory-node {
   transform: translate(-50%, -50%);
 }

@@ -6,6 +6,7 @@ import {
   ChevronDown,
   Heart,
   LockKeyhole,
+  Maximize2,
   Music2,
   PenLine,
   Sparkles,
@@ -32,7 +33,19 @@ function EnvelopeGate({ opening, onOpen }: EnvelopeGateProps) {
           <span>A private little sky</span>
           <span className="h-px w-8 bg-[hsl(var(--primary)/.55)]" />
         </div>
-        <div className={`envelope relative h-[13.5rem] w-[20rem] sm:h-[16rem] sm:w-[24rem] ${opening ? 'envelope-open' : ''}`}>
+        <div
+          className={`envelope relative h-[13.5rem] w-[20rem] cursor-pointer sm:h-[16rem] sm:w-[24rem] ${opening ? 'envelope-open' : ''}`}
+          role="button"
+          tabIndex={opening ? -1 : 0}
+          aria-label="Open the birthday letter"
+          onClick={onOpen}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              onOpen();
+            }
+          }}
+        >
           <div className="envelope-body absolute inset-0 rounded-[.8rem] border border-[hsl(var(--accent)/.7)] bg-[linear-gradient(145deg,hsl(342_31%_25%),hsl(279_31%_17%))] shadow-[0_28px_80px_hsl(253_45%_3%/.6)]">
             <div className="absolute inset-0 overflow-hidden rounded-[.8rem]">
               <div className="absolute -left-5 -top-10 h-36 w-48 rotate-[25deg] border-b border-[hsl(var(--primary)/.2)] bg-[hsl(342_40%_32%/.35)]" />
@@ -307,6 +320,71 @@ function WishSection({ wished, onWish }: { wished: boolean; onWish: () => void }
   );
 }
 
+function CollageVideoSection({ src }: { src: string }) {
+  const [videoError, setVideoError] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
+
+  return (
+    <section id="video" className="relative border-b border-[hsl(var(--border)/.65)] px-5 py-24 sm:px-8 sm:py-36">
+      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[.75fr_1.25fr] lg:items-end lg:gap-20">
+        <div>
+          <p className="text-[.67rem] font-semibold uppercase tracking-[.3em] text-[hsl(var(--accent))]">03 · Our moving memories</p>
+          <h2 className="mt-5 max-w-sm font-display text-5xl leading-[.92] text-[hsl(var(--foreground))] sm:text-7xl">
+            A little more of us, in motion.
+          </h2>
+          <p className="mt-6 max-w-md text-sm leading-7 text-[hsl(var(--muted-foreground))]">
+            Add a collage video here whenever you are ready. It can stay small in the page or open into its own full-screen moment.
+          </p>
+        </div>
+        <div className="relative overflow-hidden rounded-[1.2rem] border border-[hsl(var(--primary)/.25)] bg-[hsl(253_33%_12%/.82)] shadow-[0_26px_80px_hsl(253_45%_3%/.28)]">
+          {!videoError ? (
+            <>
+              <video
+                src={src}
+                controls
+                playsInline
+                preload="metadata"
+                onError={() => setVideoError(true)}
+                className="aspect-video w-full object-cover"
+                aria-label="Collage video"
+              />
+              <button
+                type="button"
+                onClick={() => setFullscreen(true)}
+                className="absolute bottom-14 right-3 inline-flex items-center gap-2 rounded-full border border-[hsl(var(--foreground)/.3)] bg-[hsl(253_33%_8%/.8)] px-3 py-2 text-[.62rem] font-semibold uppercase tracking-[.14em] text-[hsl(var(--foreground)/.86)] backdrop-blur-md transition hover:border-[hsl(var(--primary))] hover:text-[hsl(var(--primary))]"
+                aria-label="Open collage video full screen"
+              >
+                <Maximize2 size={13} strokeWidth={1.5} />
+                Full screen
+              </button>
+            </>
+          ) : (
+            <div className="flex aspect-video flex-col items-center justify-center px-7 text-center">
+              <p className="font-display text-3xl italic text-[hsl(var(--primary))]">Your moving memories go here.</p>
+              <p className="mt-3 max-w-sm text-xs leading-6 text-[hsl(var(--muted-foreground))]">
+                Add <code className="rounded bg-[hsl(var(--foreground)/.08)] px-1.5 py-0.5 text-[hsl(var(--accent))]">collage-video.mp4</code> inside <code className="rounded bg-[hsl(var(--foreground)/.08)] px-1.5 py-0.5 text-[hsl(var(--accent))]">public/media</code>.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+      {fullscreen && !videoError && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[hsl(253_45%_3%/.94)] p-4 backdrop-blur-md sm:p-8" role="dialog" aria-modal="true" aria-label="Full-screen collage video">
+          <button
+            type="button"
+            onClick={() => setFullscreen(false)}
+            className="absolute right-5 top-5 rounded-full border border-[hsl(var(--foreground)/.2)] p-2 text-[hsl(var(--foreground)/.78)] transition hover:border-[hsl(var(--primary))] hover:text-[hsl(var(--primary))]"
+            aria-label="Close full-screen collage video"
+          >
+            <X size={20} strokeWidth={1.4} />
+          </button>
+          <video src={src} controls autoPlay playsInline className="max-h-[90dvh] w-full max-w-6xl rounded-[.8rem] border border-[hsl(var(--primary)/.3)] shadow-[0_32px_100px_hsl(253_45%_3%/.7)]" aria-label="Full-screen collage video" />
+        </div>
+      )}
+    </section>
+  );
+}
+
 function App() {
   const [opening, setOpening] = useState(false);
   const [opened, setOpened] = useState(false);
@@ -400,6 +478,7 @@ function App() {
           </section>
           <LetterSection message={message} onMessageChange={setMessage} />
           <MemoryGallery memories={birthdayConfig.memories} onSelect={setSelectedMemory} />
+          <CollageVideoSection src={birthdayConfig.collageVideoPath} />
           <WishSection wished={wished} onWish={() => setWished(true)} />
           <footer className="border-t border-[hsl(var(--border)/.6)] px-5 py-10 text-center sm:px-8">
             <p className="font-script text-5xl text-[hsl(var(--primary))]">For all our tomorrows</p>
