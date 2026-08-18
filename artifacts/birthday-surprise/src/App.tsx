@@ -91,7 +91,8 @@ function EnvelopeGate({ opening, onOpen }: EnvelopeGateProps) {
       </div>
       <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 items-center gap-2 text-[.64rem] uppercase tracking-[.22em] text-[hsl(var(--muted-foreground)/.65)]">
         <span className="h-px w-5 bg-[hsl(var(--muted-foreground)/.3)]" />
-        Made for one person
+        Made for you with love
+        <Heart size={10} strokeWidth={1.5} fill="currentColor" aria-hidden="true" />
         <span className="h-px w-5 bg-[hsl(var(--muted-foreground)/.3)]" />
       </div>
     </section>
@@ -295,28 +296,41 @@ function WishSection({ wished, onWish }: { wished: boolean; onWish: () => void }
           {wished ? 'The sky heard you' : 'Light the sky'}
         </button>
         {wished && (
-          <div className="wish-burst pointer-events-none absolute left-1/2 top-[47%] h-1 w-1" aria-hidden="true">
-            {Array.from({ length: 18 }).map((_, index) => (
-              <span
-                className="spark absolute left-1/2 top-1/2 h-1 w-1 rounded-full bg-[hsl(var(--accent))]"
-                key={index}
-                style={
-                  {
-                    '--dx': `${Math.cos(index * .9) * (100 + (index % 3) * 35)}px`,
-                    '--dy': `${Math.sin(index * .9) * (80 + (index % 4) * 24)}px`,
-                  } as CSSProperties
-                }
-              />
-            ))}
-          </div>
-        )}
-        {wished && (
           <p className="reveal-up mt-10 font-display text-3xl italic text-[hsl(var(--primary))]">
             I hope it finds you. I hope I do, too.
           </p>
         )}
       </div>
     </section>
+  );
+}
+
+function WishConfetti() {
+  return (
+    <div className="wish-confetti fixed inset-0 z-20 overflow-hidden pointer-events-none" aria-hidden="true">
+      {Array.from({ length: 64 }).map((_, index) => {
+        const angle = index * (Math.PI * 2 / 64) + (index % 4) * 0.08;
+        const x = Math.cos(angle) * (28 + (index % 6) * 11);
+        const y = Math.sin(angle) * (28 + (index % 7) * 8);
+        return (
+          <span
+            key={index}
+            className={`wish-star wish-star-${index % 3}`}
+            style={
+              {
+                '--x': `${x}vw`,
+                '--y': `${y}vh`,
+                '--delay': `${(index % 12) * 0.018}s`,
+                '--size': `${8 + (index % 4) * 2}px`,
+                '--rotation': `${(index % 2 ? 1 : -1) * (120 + index * 9)}deg`,
+              } as CSSProperties
+            }
+          >
+            ✦
+          </span>
+        );
+      })}
+    </div>
   );
 }
 
@@ -493,6 +507,7 @@ function App() {
       {selectedMemory && (
         <MemoryLightbox memory={selectedMemory} onClose={() => setSelectedMemory(null)} onNext={selectNext} onPrevious={selectPrevious} />
       )}
+      {wished && <WishConfetti />}
     </main>
   );
 }

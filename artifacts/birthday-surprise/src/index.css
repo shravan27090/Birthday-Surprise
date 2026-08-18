@@ -219,10 +219,38 @@
   100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1); }
 }
 
+@keyframes wish-starburst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.2) rotate(0deg);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15) rotate(24deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(.72) rotate(var(--rotation));
+  }
+}
+
 .reveal-up { animation: rise-in .9s cubic-bezier(.2,.8,.2,1) both; }
 .envelope-open .envelope-flap { animation: envelope-open 1s cubic-bezier(.65,0,.35,1) forwards; transform-origin: top; }
 .envelope-open .envelope-body { animation: envelope-lift 1.15s .18s cubic-bezier(.2,.8,.2,1) forwards; }
 .spark { animation: sparkle-out 1.3s .2s ease-out both; }
+.wish-star {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-family: var(--app-font-serif);
+  font-size: var(--size);
+  line-height: 1;
+  text-shadow: 0 0 18px currentColor;
+  animation: wish-starburst 2.8s var(--delay) cubic-bezier(.15,.8,.25,1) both;
+}
+.wish-star-0 { color: hsl(var(--accent)); }
+.wish-star-1 { color: hsl(var(--primary)); }
+.wish-star-2 { color: hsl(280 55% 78%); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
