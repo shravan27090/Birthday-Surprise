@@ -86,7 +86,7 @@ function EnvelopeGate({ opening, onOpen }: EnvelopeGateProps) {
           Open the letter
         </button>
         <p className="mt-5 text-[.66rem] uppercase tracking-[.22em] text-[hsl(var(--muted-foreground)/.72)]">
-          Tap once · sound begins softly
+          Tap the button see the magic and more
         </p>
       </div>
       <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 items-center gap-2 text-[.64rem] uppercase tracking-[.22em] text-[hsl(var(--muted-foreground)/.65)]">
