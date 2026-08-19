@@ -20,7 +20,7 @@ export const birthdayConfig = {
     "id": "memory-1",
     "date": "23 JUN · 2023",
     "title": "23 Jun 2023",
-    "caption": "Our first meet where we headed to the beach was captured.",
+    "caption": "Our first meet where we headed to the beach was captured. This is where it all started, our cute moments our future thanks for letting me bea part of your life and spend the rest of th life together after that one yes to meet me, still cant digest its been 3 years meeting you",
     "image": "/media/June 23 2023.png",
     "x": 8.2,
     "y": 7.5
