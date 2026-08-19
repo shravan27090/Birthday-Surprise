@@ -15,6 +15,13 @@ import {
 } from 'lucide-react';
 import { birthdayConfig, type Memory } from './content/config';
 
+// Resolves absolute "/media/..." and "/audio/..." paths against the app's
+// actual base path, so assets load correctly whether the site is hosted at
+// a domain root or under a subpath like /Birthday-Surprise/ (GitHub Pages).
+function withBase(path: string): string {
+  return `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+}
+
 type EnvelopeGateProps = {
   opening: boolean;
   onOpen: () => void;
@@ -280,7 +287,7 @@ function MemoryLightbox({ memory, onClose, onNext, onPrevious }: { memory: Memor
         <div className="overflow-hidden rounded-[1.2rem] border border-[hsl(var(--primary)/.3)] bg-[hsl(253_33%_12%)] shadow-[0_32px_100px_hsl(253_45%_3%/.8)] flex flex-col items-center">
           <div className="w-full flex items-center justify-center bg-[hsl(253_33%_8%/.9)] p-2 sm:p-4 min-h-[35dvh] max-h-[68dvh]">
             <img
-              src={memory.image}
+              src={withBase(memory.image)}
               alt={memory.caption}
               className="max-h-[65dvh] max-w-full w-auto h-auto object-contain rounded-lg shadow-md"
             />
@@ -526,7 +533,7 @@ function App() {
     <main className="noise night-sky min-h-[100dvh] overflow-hidden">
       <audio
         ref={audioRef}
-        src={birthdayConfig.audioPath}
+        src={withBase(birthdayConfig.audioPath)}
         loop
         preload="auto"
         onError={() => setAudioAvailable(false)}
@@ -563,7 +570,7 @@ function App() {
           </section>
           <LetterSection message={message} />
           <MemoryGallery memories={birthdayConfig.memories} onSelect={setSelectedMemory} />
-          <CollageVideoSection src={birthdayConfig.collageVideoPath} />
+          <CollageVideoSection src={withBase(birthdayConfig.collageVideoPath)} />
           <WishSection wished={wished} wishCountdown={wishCountdown} onWish={() => setWished(true)} />
           <footer className="border-t border-[hsl(var(--border)/.6)] px-5 py-10 text-center sm:px-8">
             <p className="font-script text-5xl text-[hsl(var(--primary))]">Happy Birthday to my Hunny Bunny </p>
